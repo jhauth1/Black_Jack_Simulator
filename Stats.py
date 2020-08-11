@@ -1,28 +1,43 @@
 import time
 import functions as func
+import math
+
+
 def black_stats(players, hit):
     stats = []
-    for x in range(10000):
+    for x in range(10):
         stats.append(func.playing_cards().blackjack(players, hit))
-    win = stats.count('Win')
-    lose = stats.count('Lose')
-    return win / (win + lose)
+    return stats.count('Win') / len(stats)
+
+
 def loop_hit(players):
     hit = {}
-    for i in range(13,22):
+    for i in range(13, 22):
         # print('Stop hitting at:', i)
         x = black_stats(players, i)
         hit[i] = x
         # print(x)
     print('Results for', players, 'players:')
-    print('Stop hitting at', max(hit, key = hit.get))
+    print('Stop hitting at', max(hit, key=hit.get))
     print('This method has a', hit.get(max(hit, key=hit.get)) * 100, '% chance of success.')
+
+
 def loop_players():
-    for i in range(1,7):
-        print('Players:',i)
-        x = loop_hit(i)
-        print(x)
+    for i in range(1, 8):
+        print('Players:', i)
+        print(loop_hit(i))
+
 
 start_time = time.time()
-print(loop_players())
-print("%s seconds" % (time.time() - start_time))
+loop_players()
+time = (time.time() - start_time)
+if time < 60:
+    print("Seconds: %s" % time)
+elif time < (60*60):
+    minutes = math.floor(time/60)
+    print('Minutes: %s\nSeconds: %s ' % (minutes, (time - math.floor(minutes*60))))
+else:
+    hour = math.floor(time/(60*60))
+    minutes = math.floor(time/60 - (hour*60))
+    print('Hours: %s\nMinutes: %s\nSeconds: %s' %
+          (hour, minutes, math.floor(time - (60*60*hour) - (minutes*60))))
