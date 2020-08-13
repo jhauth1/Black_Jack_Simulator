@@ -29,8 +29,7 @@ class playing_cards():
                 play = 'Dealer'
             else:
                 play = 'Player_' + str(x + 1)
-            self.df.insert(x, play, self.cards.pop(0))
-            self.black_ace(play)
+            self.df.insert(x, play, [self.cards.pop(0)])
         for col in list(self.df):
             self.df.loc[1, col] = self.cards.pop(0)
 
@@ -90,9 +89,8 @@ class playing_cards():
         # print('Winner is', winners, 'with a score of', win)
 
     def black_ace(self, col):
-        if np.nansum(self.df[col]) > 21:
-            for index, row in self.df.iterrows():
-                if self.df.loc[index, col] == 11:
-                    self.df.loc[index, col] = 1
-
-
+        count = 0
+        while 11 in self.df[col].unique() and np.nansum(self.df[col]) > 21:
+            if self.df.loc[count, col] == 11:
+                self.df.loc[count, col] = 1
+            count += 1
