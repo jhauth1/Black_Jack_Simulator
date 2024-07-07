@@ -5,7 +5,7 @@ import math
 
 def black_stats(players, hit):
     stats = []
-    for x in range(1000):
+    for x in range(10000):
         stats.append(func.playing_cards().blackjack(players, hit))
     return stats.count('Win') / len(stats)
 
@@ -28,7 +28,7 @@ def loop_players():
 
 
 start_time = time.time()
-loop_players()
+loop_hit(5)
 time = (time.time() - start_time)
 print()
 if time < 60:
