@@ -47,7 +47,7 @@ class playing_cards():
                 if col != 'Player_1':
                     # Could update this to have a better chance to hit median (use normal distribution)
                     hit = random.randint(13, 21)
-            self.black_ace(col)
+            # self.black_ace(col)
             # count = 2
             while np.nansum(self.df[col]) < hit:
                 self.df.loc[len(self.df[col].dropna()), col] = self.cards.pop(0)
