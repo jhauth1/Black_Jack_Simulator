@@ -39,7 +39,7 @@ class playing_cards():
         for x in range(players + 1):
             if x == players:
                 col = 'Dealer'
-                hit = 16
+                hit = 17
             else:
                 col = 'Player_' + str(x + 1)
                 if col != 'Player_1':
