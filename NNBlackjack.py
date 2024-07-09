@@ -56,6 +56,10 @@ class playing_cards():
         return self.black_check()
 
     def black_check(self):
+        bust = -1
+        tie = 0
+        win = 1
+        blackjack = 1.5
         idf = pd.DataFrame(columns=list(self.df))
         for col in list(self.df):
             if np.nansum(self.df[col]) <= 21:
@@ -64,17 +68,17 @@ class playing_cards():
             else:
                 idf.loc[0, col] = 'Bust'
         if idf.loc[0, 'Player_1'] == 'Bust':
-            return 0
+            return bust
         elif idf.loc[0, 'Player_1'] == 21 and idf.loc[1, 'Player_1'] == 2 and not (idf.loc[0, 'Dealer'] == 21 and idf.loc[1, 'Dealer'] == 2):
-            return 2.5
+            return blackjack
         elif idf.loc[0, 'Dealer'] == 'Bust':
-            return 2
+            return win
         elif idf.loc[0, 'Player_1'] < idf.loc[0, 'Dealer']:
-            return 0
+            return bust
         elif idf.loc[0, 'Player_1'] > idf.loc[0, 'Dealer']:
-            return 2
+            return win
         else:
-            return 1
+            return tie
         # try:
         #     win = np.nanmax(idf)
         #     idf.loc[0] = idf.loc[0].fillna('Bust')
