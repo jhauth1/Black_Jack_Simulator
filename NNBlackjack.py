@@ -11,6 +11,7 @@ class playing_cards():
                       10, 10, 10, 10, 10, 10, 11, 11, 11, 11]
         random.shuffle(self.cards)
         self.df = pd.DataFrame()
+        self.game_data = []
         # self.hitters = np.random.normal(17, 2, 2000)
         # self.hitters = [int(i) for i in self.hitters if i < 22 and i >= 13]
         # import matplotlib.pyplot as plt
@@ -53,6 +54,7 @@ class playing_cards():
                 self.df.loc[len(self.df[col].dropna()), col] = self.cards.pop(0)
                 self.black_ace(col)
                 # count += 1
+
         return self.black_check()
 
     def black_check(self):
