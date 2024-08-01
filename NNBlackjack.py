@@ -81,23 +81,7 @@ class playing_cards():
             return win
         else:
             return tie
-        # try:
-        #     win = np.nanmax(idf)
-        #     idf.loc[0] = idf.loc[0].fillna('Bust')
-        #     if idf.loc[0,'Player_1'] >= idf.loc[0,'Player_1']:
-        #         return 'Win'
-        #     # elif idf.loc[0,'Player_1'] == 'Bust'
-        #     #     return 'Bust'
-        #     else:
-        #         return 'Lose'
-        # except:
-        #     return 'Lose'
-        # winners = []
-        # for col in list(idf):
-        #     if idf.loc[0, col] == win:
-        #         winners.append(col)
-        # print(idf)
-        # print('Winner is', winners, 'with a score of', win)
+
 
     def black_ace(self, col):
         count = 0

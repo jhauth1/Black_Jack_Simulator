@@ -5,14 +5,14 @@ import math
 
 def black_stats(players, hit):
     stats = []
-    for x in range(10000):
+    for x in range(999999):
         stats.append(func.playing_cards().blackjack(players, hit))
     return stats.count('Win') / len(stats)
 
 
 def loop_hit(players):
     hit = {}
-    for i in range(13, 22):
+    for i in range(10, 21):
         # print('Stop hitting at:', i)
         x = black_stats(players, i)
         hit[i] = x

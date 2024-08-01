@@ -4,23 +4,24 @@ import math
 import gym
 import numpy as np
 import PIL.Image
-import tensorflow as tf
+import torch
 import utils
 
 
 
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Input
-from tensorflow.keras.losses import MSE
-from tensorflow.keras.optimizers import Adam
-
+from torch import
 def create_model():
-    model = Sequential()
-    model.add(Dense(24, input_dim=2, activation='relu'))  # Adjust input_dim as needed
-    model.add(Dense(24, activation='relu'))
-    model.add(Dense(1, activation='linear'))
-    model.compile(loss='mse', optimizer=Adam(learning_rate=0.001))
-    return model
+    model = Sequential([
+        Input(shape=2)
+        Dense(units=24, activation='relu'),
+        Dense(units=24, activation='relu'),
+        Dense(units=2, activation='linear'),
+    ])
+    # model.add(Dense(24, input_dim=2, activation='relu'))  # Adjust input_dim as needed
+    # model.add(Dense(24, activation='relu'))
+    # model.add(Dense(1, activation='linear'))
+    # model.compile(loss='mse', optimizer=Adam(learning_rate=0.001))
+    # return model
 
 model = create_model()
 
