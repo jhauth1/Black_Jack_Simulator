@@ -35,7 +35,6 @@ class playing_cards():
             self.df.loc[1, col] = self.cards.pop(0)
 
     def blackjack(self, players, hit):
-        # Could update for counting cards and changing the hit based on what card goes up for the dealer
         if hit > 21:
             hit = 21
         self.black_deal(players)
@@ -48,20 +47,16 @@ class playing_cards():
                 if col != 'Player_1':
                     # Could update this to have a better chance to hit median (use normal distribution)
                     hit = random.randint(13, 21)
-            # self.black_ace(col)
-            # count = 2
             while np.nansum(self.df[col]) < hit:
                 self.df.loc[len(self.df[col].dropna()), col] = self.cards.pop(0)
                 self.black_ace(col)
-                # count += 1
-
         return self.black_check()
 
     def black_check(self):
         bust = -1
         tie = 0
         win = 1
-        blackjack = 1.5
+        blackjack = None
         idf = pd.DataFrame(columns=list(self.df))
         for col in list(self.df):
             if np.nansum(self.df[col]) <= 21:
