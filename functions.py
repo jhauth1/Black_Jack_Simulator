@@ -11,17 +11,7 @@ class playing_cards():
                       10, 10, 10, 10, 10, 10, 11, 11, 11, 11]
         random.shuffle(self.cards)
         self.df = pd.DataFrame()
-        # self.hitters = np.random.normal(17, 2, 2000)
-        # self.hitters = [int(i) for i in self.hitters if i < 22 and i >= 13]
-        # import matplotlib.pyplot as plt
-        # count, bins, ignored = plt.hist(self.hitters, 30, density=True)
-        # plt.plot(bins, 1 / (2 * np.sqrt(2 * np.pi)) *
-        #          np.exp(- (bins - 17) ** 2 / (2 * 2 ** 2)),
-        #          linewidth=2, color='r')
-        # print('max:', max(self.hitters))
-        # print('min:', min(self.hitters))
-        # print('Count:', len(self.hitters))
-        # plt.show()
+
 
     def black_deal(self, players):
         for x in range(players + 1):
@@ -70,23 +60,7 @@ class playing_cards():
             return 'Win'
         else:
             return 'Tie'
-        # try:
-        #     win = np.nanmax(idf)
-        #     idf.loc[0] = idf.loc[0].fillna('Bust')
-        #     if idf.loc[0,'Player_1'] >= idf.loc[0,'Player_1']:
-        #         return 'Win'
-        #     # elif idf.loc[0,'Player_1'] == 'Bust'
-        #     #     return 'Bust'
-        #     else:
-        #         return 'Lose'
-        # except:
-        #     return 'Lose'
-        # winners = []
-        # for col in list(idf):
-        #     if idf.loc[0, col] == win:
-        #         winners.append(col)
-        # print(idf)
-        # print('Winner is', winners, 'with a score of', win)
+
 
     def black_ace(self, col):
         count = 0

@@ -1,6 +1,7 @@
 import time
 import functions as func
 import math
+import pandas as pd
 
 
 def black_stats(players, hit):
@@ -12,13 +13,15 @@ def black_stats(players, hit):
 
 def loop_hit(players):
     hit = {}
-    for i in range(10, 21):
+    for i in range(21, 22):
         # print('Stop hitting at:', i)
         x = black_stats(players, i)
         hit[i] = x
         # print(x)
     print('Stop hitting at', max(hit, key=hit.get))
     print('This method has a', hit.get(max(hit, key=hit.get)) * 100, '% chance of success.')
+    print(pd.DataFrame(hit.items()))
+
 
 
 def loop_players():
@@ -29,6 +32,7 @@ def loop_players():
 
 start_time = time.time()
 loop_hit(5)
+# loop_players()
 time = (time.time() - start_time)
 print()
 if time < 60:
