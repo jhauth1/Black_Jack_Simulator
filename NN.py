@@ -3,7 +3,8 @@ import random
 import numpy as np
 import neat
 import os
-
+import pickle
+import visualize
 
 class playing_cards():
     def __init__(self):
@@ -117,7 +118,7 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         genome.fitness = 0.0  # Initialize fitness
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        N = 100  # Number of games per genome
+        N = 1  # Number of games per genome
         for _ in range(N):
             result = play_game_with_net(net)
             if result == 1:
@@ -141,18 +142,38 @@ def run_neat():
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     # Run NEAT
-    winner = p.run(eval_genomes, 100)
+    winner = p.run(eval_genomes, 50)
     # Show the winning genome
     print('\nBest genome:\n{!s}'.format(winner))
-    # Test the winning genome
+    return winner, config
+
+if __name__ == '__main__':
+    # Run NEAT and get the winner along with config
+    winner, config = run_neat()
+
+    # Visualize the winning genome's network architecture
+    visualize.draw_net(config, winner, view=True, filename="winner_net")
+
+    # Create the neural network from the winning genome
     winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+
+    # Attempt to pickle the neural network; if that fails, pickle the genome instead.
+    try:
+        with open('winner_net.pkl', 'wb') as f:
+            pickle.dump(winner_net, f)
+        print("Neural network successfully pickled.")
+    except Exception as e:
+        print("Pickling network failed:", e)
+        print("Pickling genome instead.")
+        with open('winner_genome.pkl', 'wb') as f:
+            pickle.dump(winner, f)
+        print("Genome successfully pickled.")
+
+    # Optionally, test the network
     test_wins = 0
     test_games = 1000
     for _ in range(test_games):
         result = play_game_with_net(winner_net)
         if result == 1:
             test_wins += 1
-    print(f'\nTested the winning genome over {test_games} games, won {test_wins} times.')
-
-if __name__ == '__main__':
-    run_neat()
+    print(f'\nTested the winning network over {test_games} games, won {test_wins} times.')
