@@ -57,12 +57,12 @@ def play_game_with_net(net):
         while True:
             # Prepare inputs for the neural network
             if 11 in player_hand.values and player_total <= 21:
-                usable_ace = 1.0
+                usable_ace = 1
             else:
-                usable_ace = 0.0
+                usable_ace = 0
 
-            inputs = [player_total / 21.0,
-                      dealer_visible_card / 11.0,
+            inputs = [player_total / 21,
+                      dealer_visible_card / 11,
                       usable_ace]
 
             output = net.activate(inputs)
@@ -118,7 +118,7 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         genome.fitness = 0.0  # Initialize fitness
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        N = 1  # Number of games per genome
+        N = 1000  # Number of games per genome
         for _ in range(N):
             result = play_game_with_net(net)
             if result == 1:
@@ -142,7 +142,8 @@ def run_neat():
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     # Run NEAT
-    winner = p.run(eval_genomes, 50)
+    # the N in this line is the max number of generations
+    winner = p.run(eval_genomes, 25)
     # Show the winning genome
     print('\nBest genome:\n{!s}'.format(winner))
     return winner, config
