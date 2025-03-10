@@ -6,7 +6,7 @@ import pandas as pd
 
 def black_stats(players, hit):
     stats = []
-    for x in range(9999):
+    for x in range(99):
         stats.append(func.playing_cards().blackjack(players, hit))
     return stats.count('Win') / len(stats)
 

@@ -5,6 +5,9 @@ import neat
 import os
 import pickle
 import visualize
+MAX_CARDS = 10
+GAMES = 10000
+GENERATIONS = 5
 
 class playing_cards():
     def __init__(self):
@@ -36,6 +39,17 @@ class playing_cards():
                 self.df.loc[count, col] = 1
             count += 1
 
+def pad_hand(hand, max_cards=MAX_CARDS):
+        """
+        Convert the player's hand (a list or pandas Series of cards) into a fixed-size list.
+        If the hand has fewer than max_cards, pad with 0's.
+        If it has more than max_cards, truncate it.
+        """
+        hand_list = list(hand)
+        if len(hand_list) < max_cards:
+            hand_list.extend([0] * (max_cards - len(hand_list)))
+        return hand_list[:max_cards]
+
 def play_game_with_net(net):
     # Initialize a new game
     game = playing_cards()
@@ -61,9 +75,10 @@ def play_game_with_net(net):
             else:
                 usable_ace = 0
 
-            inputs = [player_total / 21,
-                      dealer_visible_card / 11,
-                      usable_ace]
+            padded_hand = pad_hand(player_hand)
+            normalized_hand = [card / 11 for card in padded_hand]  # Normalize each card
+
+            inputs = normalized_hand + [dealer_visible_card / 11, usable_ace]
 
             output = net.activate(inputs)
 
@@ -118,8 +133,7 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         genome.fitness = 0.0  # Initialize fitness
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        N = 1000  # Number of games per genome
-        for _ in range(N):
+        for _ in range(GAMES):
             result = play_game_with_net(net)
             if result == 1:
                 genome.fitness += 1  # Win
@@ -142,8 +156,7 @@ def run_neat():
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     # Run NEAT
-    # the N in this line is the max number of generations
-    winner = p.run(eval_genomes, 25)
+    winner = p.run(eval_genomes, GENERATIONS)
     # Show the winning genome
     print('\nBest genome:\n{!s}'.format(winner))
     return winner, config
@@ -170,7 +183,7 @@ if __name__ == '__main__':
             pickle.dump(winner, f)
         print("Genome successfully pickled.")
 
-    # Optionally, test the network
+    # Test the network
     test_wins = 0
     test_games = 1000
     for _ in range(test_games):
