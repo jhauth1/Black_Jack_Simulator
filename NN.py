@@ -5,9 +5,8 @@ import neat
 import os
 import pickle
 import visualize
-MAX_CARDS = 10
 GAMES = 10000
-GENERATIONS = 5
+GENERATIONS = 1
 
 class playing_cards():
     def __init__(self):
@@ -39,16 +38,7 @@ class playing_cards():
                 self.df.loc[count, col] = 1
             count += 1
 
-def pad_hand(hand, max_cards=MAX_CARDS):
-        """
-        Convert the player's hand (a list or pandas Series of cards) into a fixed-size list.
-        If the hand has fewer than max_cards, pad with 0's.
-        If it has more than max_cards, truncate it.
-        """
-        hand_list = list(hand)
-        if len(hand_list) < max_cards:
-            hand_list.extend([0] * (max_cards - len(hand_list)))
-        return hand_list[:max_cards]
+
 
 def play_game_with_net(net):
     # Initialize a new game
@@ -58,6 +48,7 @@ def play_game_with_net(net):
     # Player's initial hand
     player_hand = game.df['Player_1'].dropna()
     player_total = np.nansum(player_hand)
+    num_cards = len(player_hand)
     dealer_visible_card = game.df.loc[0, 'Dealer']
 
     # Check for player's blackjack
@@ -69,16 +60,13 @@ def play_game_with_net(net):
     # Player's turn
     if not player_blackjack:
         while True:
+            usable_ace = 0
             # Prepare inputs for the neural network
             if 11 in player_hand.values and player_total <= 21:
                 usable_ace = 1
-            else:
-                usable_ace = 0
 
-            padded_hand = pad_hand(player_hand)
-            normalized_hand = [card / 11 for card in padded_hand]  # Normalize each card
 
-            inputs = normalized_hand + [dealer_visible_card / 11, usable_ace]
+            inputs = [player_total / 21,num_cards,dealer_visible_card / 11, usable_ace]
 
             output = net.activate(inputs)
 
@@ -185,7 +173,7 @@ if __name__ == '__main__':
 
     # Test the network
     test_wins = 0
-    test_games = 1000
+    test_games = 999999
     for _ in range(test_games):
         result = play_game_with_net(winner_net)
         if result == 1:
