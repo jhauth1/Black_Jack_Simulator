@@ -6,7 +6,7 @@ import os
 import pickle
 import visualize
 GAMES = 10000
-GENERATIONS = 1
+GENERATIONS = 10
 
 class playing_cards():
     def __init__(self):
