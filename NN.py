@@ -48,7 +48,6 @@ def play_game_with_net(net):
     # Player's initial hand
     player_hand = game.df['Player_1'].dropna()
     player_total = np.nansum(player_hand)
-    num_cards = len(player_hand)
     dealer_visible_card = game.df.loc[0, 'Dealer']
 
     # Check for player's blackjack
@@ -64,7 +63,7 @@ def play_game_with_net(net):
             # Prepare inputs for the neural network
             if 11 in player_hand.values and player_total <= 21:
                 usable_ace = 1
-
+            num_cards= len(player_hand)
 
             inputs = [player_total / 21,num_cards,dealer_visible_card / 11, usable_ace]
 
