@@ -8,6 +8,7 @@ reset_on_extinction   = False
 activation_default      = relu
 activation_mutate_rate  = 0.2
 activation_options      = relu sigmoid tanh
+output_activation       = sigmoid
 
 aggregation_default     = sum
 aggregation_mutate_rate = 0.0
