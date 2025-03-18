@@ -13,7 +13,7 @@ def black_stats(players, hit):
 
 def loop_hit(players):
     hit = {}
-    for i in range(12, 22):
+    for i in range(10, 22):
         # print('Stop hitting at:', i)
         x = black_stats(players, i)
         hit[i] = x
