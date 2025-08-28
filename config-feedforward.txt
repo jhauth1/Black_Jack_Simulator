@@ -5,7 +5,7 @@ pop_size              = 500
 reset_on_extinction   = False
 
 [DefaultGenome]
-activation_default      = relu
+activation_default      = sigmoid
 activation_mutate_rate  = 0.2
 activation_options      = relu sigmoid tanh
 output_activation       = sigmoid

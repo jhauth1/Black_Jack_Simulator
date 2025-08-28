@@ -5,8 +5,8 @@ import neat
 import os
 import pickle
 import visualize
-GAMES = 10000
-GENERATIONS = 10
+GAMES = 100000
+GENERATIONS = 3
 
 class playing_cards():
     def __init__(self):
