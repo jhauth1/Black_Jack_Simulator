@@ -2,10 +2,12 @@ import os
 import pickle
 
 # CUSTOM INPUTS
-PLAYER_TOTAL= 16
+PLAYER_TOTAL= 5
 NUM_CARDS= 2
 DEALER_CARD= 10
 USABLE_ACE= 0
+
+
 
 def load_winner_net():
     # Try to load the pickled network; if not available, rebuild from genome+config.
@@ -43,4 +45,21 @@ if __name__ == '__main__':
         decision = 'Hit'
     else:
         decision = 'Stay'
-    print('Decision:', decision,  '\nWith a confidence of : %', abs(action - 0.5) * 200, '\n',action)
+    while (action > 0.5):
+        print('Decision:', decision, '\nWith a confidence of : %', abs(action - 0.5) * 200, '\n')
+        print('Value of next card (aces are 11: ')
+        newCard = int(input())
+        PLAYER_TOTAL += newCard
+        NUM_CARDS += 1
+        if newCard == 11:
+            USABLE_ACE += 1
+        if PLAYER_TOTAL >21 and USABLE_ACE>0:
+            USABLE_ACE -= 1
+        print(USABLE_ACE)
+        action = decide_action_from_features(net, player_total=PLAYER_TOTAL, num_cards=NUM_CARDS,
+                                             dealer_visible_card=DEALER_CARD, usable_ace=USABLE_ACE)
+    if action > 0.5:
+        decision = 'Hit'
+    else:
+        decision = 'Stay'
+    print('Decision:', decision,  '\nWith a confidence of : %', abs(action - 0.5) * 200)
